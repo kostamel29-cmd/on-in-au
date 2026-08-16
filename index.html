@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#08080A">
+<title>On in AU</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg:#08080A; --surface:#131317; --hi:#1C1C22; --line:#26262E;
+    --text:#F4F4F7; --dim:#8B8B96; --accent:#E50914;
+  }
+  html,body { margin:0; background:var(--bg); color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  body { padding-bottom:70px; }
+  ::-webkit-scrollbar { width:0; height:0; }
+  button { font-family:inherit; cursor:pointer; }
+  a { color:inherit; }
+  .hidden { display:none !important; }
+
+  /* setup */
+  #setup { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  #setup .box { max-width:460px; width:100%; }
+  .eyebrow { font-size:11px; letter-spacing:.22em; color:var(--dim); margin-bottom:14px; }
+  #setup h1 { font-size:38px; line-height:1.03; font-weight:800; letter-spacing:-.035em; margin:0 0 18px; }
+  #setup p { color:var(--dim); font-size:14px; line-height:1.6; margin:0 0 22px; }
+  input, select, textarea { font-family:inherit; }
+  .field { width:100%; background:var(--surface); border:1px solid var(--line); color:var(--text);
+    padding:14px 16px; border-radius:10px; font-size:15px; outline:none; margin-bottom:12px; }
+  .primary { width:100%; background:var(--text); color:#000; border:none; padding:14px;
+    border-radius:10px; font-size:15px; font-weight:700; }
+  .err { color:#FF6B6B; font-size:13px; margin-bottom:12px; line-height:1.5; }
+  .quiet { display:block; text-align:center; color:var(--dim); font-size:13px; margin-top:16px; text-decoration:none; }
+
+  /* header */
+  header { position:sticky; top:0; z-index:30; background:rgba(8,8,10,.9);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
+    padding-top:env(safe-area-inset-top); }
+  .bar { display:flex; align-items:center; gap:10px; padding:12px 20px 0; }
+  .brand { font-size:15px; font-weight:800; letter-spacing:-.03em; }
+  .brand span { color:var(--accent); transition:color .3s; }
+  .spacer { flex:1; }
+  #search { background:var(--surface); border:1px solid var(--line); color:var(--text);
+    border-radius:8px; padding:7px 11px; font-size:13px; width:110px; outline:none; }
+  .icon { width:32px; height:30px; border-radius:8px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font-size:14px; display:flex;
+    align-items:center; justify-content:center; padding:0; }
+  .tabs { display:flex; gap:0; padding:10px 20px 0; overflow-x:auto; }
+  .tab { background:none; border:none; color:var(--dim); font-size:13.5px; font-weight:500;
+    padding:6px 2px; margin-right:16px; white-space:nowrap; border-bottom:2px solid transparent; }
+  .tab.on { color:var(--text); font-weight:700; }
+  .controls { display:flex; align-items:center; gap:8px; padding:10px 20px 12px; overflow-x:auto; }
+  .pill { background:var(--surface); color:var(--dim); border:1px solid var(--line);
+    border-radius:20px; padding:5px 13px; font-size:12.5px; white-space:nowrap; transition:all .2s; }
+  .pill.on { background:var(--accent); border-color:var(--accent); color:#08080A; font-weight:700; }
+  .divider { width:1px; height:18px; background:var(--line); flex:0 0 auto; }
+
+  /* hero */
+  #hero { position:relative; margin-bottom:26px; }
+  #hero img { width:100%; display:block; opacity:.62; }
+  #hero .fade { position:absolute; inset:0;
+    background:linear-gradient(to bottom, rgba(8,8,10,.1), var(--bg) 92%); }
+  #hero .copy { position:absolute; bottom:16px; left:20px; right:20px; }
+  #hero .kicker { font-size:10.5px; letter-spacing:.2em; color:var(--accent); font-weight:700; margin-bottom:6px; }
+  #hero h1 { font-size:30px; font-weight:800; letter-spacing:-.035em; margin:0; line-height:1.05;
+    text-shadow:0 2px 20px rgba(0,0,0,.85); }
+  #hero button { margin-top:12px; background:var(--text); color:#000; border:none;
+    padding:9px 18px; border-radius:8px; font-size:13.5px; font-weight:700; }
+
+  /* rows */
+  .row { margin-bottom:32px; }
+  .rowhead { display:flex; align-items:baseline; justify-content:space-between; padding:0 20px; margin-bottom:12px; }
+  .rowhead h2 { font-size:15px; font-weight:700; letter-spacing:-.01em; margin:0; }
+  .arrows { display:flex; gap:6px; }
+  .arrow { width:28px; height:28px; border-radius:14px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font-size:16px; line-height:1; padding:0; }
+  .strip { display:flex; gap:12px; overflow-x:auto; padding:4px 20px 8px; scrollbar-width:none; }
+
+  /* cards */
+  .card { width:148px; flex:0 0 auto; background:none; border:none; padding:0; text-align:left;
+    color:var(--text); transition:transform .18s ease; }
+  .card:hover { transform:translateY(-4px); }
+  .grid .card { width:100%; }
+  .art { aspect-ratio:2/3; border-radius:8px; overflow:hidden; background:var(--hi); }
+  .art img { width:100%; height:100%; object-fit:cover; display:block; }
+  .art .placeholder { padding:10px; font-size:12px; color:var(--dim); }
+  .ctitle { font-size:12.5px; margin-top:8px; line-height:1.3; overflow:hidden;
+    text-overflow:ellipsis; white-space:nowrap; }
+  .cmeta { font-size:11px; color:var(--dim); margin-top:2px; }
+  .dots { display:flex; gap:4px; margin-top:6px; }
+  .dot { width:6px; height:6px; border-radius:3px; display:block; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(104px, 1fr)); gap:14px; }
+  .pad { padding:16px 20px; }
+  .note { color:var(--dim); font-size:13.5px; line-height:1.6; }
+  .loadmore { width:100%; margin-top:22px; padding:14px; border-radius:10px;
+    border:1px solid var(--line); background:var(--surface); color:var(--text); font-size:14px; }
+  .selects { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .selects select { background:var(--surface); color:var(--text); border:1px solid var(--line);
+    border-radius:8px; padding:8px 11px; font-size:13px; outline:none; }
+
+  /* modal */
+  #modal { position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:50;
+    display:flex; align-items:flex-end; justify-content:center; }
+  #sheet { background:var(--surface); width:100%; max-width:680px; max-height:88vh; overflow-y:auto;
+    border-radius:16px 16px 0 0; border:1px solid var(--line); border-bottom:none; }
+  #sheet .backdrop { position:relative; }
+  #sheet .backdrop img { width:100%; display:block; }
+  #sheet .backdrop .fade { position:absolute; inset:0;
+    background:linear-gradient(to bottom, transparent 40%, var(--surface)); }
+  #sheet .body { padding:18px 22px calc(30px + env(safe-area-inset-bottom)); }
+  #sheet h2 { font-size:24px; font-weight:800; letter-spacing:-.025em; margin:0 0 8px; }
+  #sheet .meta { font-size:12.5px; color:var(--dim); margin-bottom:14px; }
+  #sheet .where { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  #sheet .chip { font-size:11.5px; padding:5px 10px; border-radius:20px;
+    background:var(--hi); border:1px solid var(--line); }
+  #sheet p { font-size:14.5px; line-height:1.62; color:#D4D4DA; margin:0 0 16px; }
+  #sheet .sub { font-size:12.5px; color:var(--dim); margin-bottom:6px; }
+  #sheet .close { margin-top:22px; width:100%; padding:13px; border-radius:10px;
+    border:1px solid var(--line); background:var(--hi); color:var(--text); font-size:14px; }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+</style>
+</head>
+<body>
+
+<div id="setup">
+  <div class="box">
+    <div class="eyebrow">AUSTRALIAN CATALOGUES</div>
+    <h1>Add your TMDB key<br>to load the libraries.</h1>
+    <p>Paste either the API Key or the API Read Access Token from your TMDB account settings. It stays in this
+       browser and is never sent anywhere except TMDB.</p>
+    <input id="keyInput" class="field" placeholder="Paste key" spellcheck="false" autocapitalize="off" autocorrect="off">
+    <div id="keyErr" class="err hidden"></div>
+    <button class="primary" id="keySave">Load catalogues</button>
+    <a class="quiet" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noreferrer">Get a key at themoviedb.org →</a>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <div class="bar">
+      <div class="brand">On&nbsp;in&nbsp;<span id="brandAccent">AU</span></div>
+      <div class="spacer"></div>
+      <input id="search" placeholder="Search" autocapitalize="off">
+      <button class="icon" id="refresh" title="Refresh">↻</button>
+      <button class="icon" id="forget" title="Remove key">⌫</button>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="controls">
+      <button class="pill on" data-type="movie">Films</button>
+      <button class="pill" data-type="tv">Series</button>
+      <div class="divider"></div>
+      <button class="pill on" data-view="rows">Browse</button>
+      <button class="pill" data-view="grid">Full library</button>
+    </div>
+  </header>
+
+  <div id="status" class="pad note hidden"></div>
+  <div id="rowsView"></div>
+
+  <div id="gridView" class="pad hidden">
+    <div class="selects">
+      <select id="sort">
+        <option value="popularity.desc">Most popular</option>
+        <option value="newest">Newest</option>
+        <option value="vote_average.desc">Highest rated</option>
+        <option value="title.asc">A–Z</option>
+      </select>
+      <select id="genre"><option value="">All genres</option></select>
+    </div>
+    <div class="grid" id="gridItems"></div>
+    <button class="loadmore" id="loadmore">Load more</button>
+  </div>
+
+  <div id="searchView" class="pad hidden">
+    <div class="note" id="searchStatus" style="margin-bottom:14px"></div>
+    <div class="grid" id="searchItems"></div>
+  </div>
+</div>
+
+<div id="modal" class="hidden"><div id="sheet"></div></div>
+
+<script>
+/* ------------------------------------------------------------------ */
+const SERVICES = [
+  { id:"netflix",   name:"Netflix",    match:["netflix"],        fallback:8,    accent:"#E50914" },
+  { id:"hbomax",    name:"HBO Max",    match:["hbo max","max"],  fallback:1899, accent:"#A855F7" },
+  { id:"disney",    name:"Disney+",    match:["disney plus"],    fallback:337,  accent:"#38BDF8" },
+  { id:"paramount", name:"Paramount+", match:["paramount plus"], fallback:531,  accent:"#3B6BF5" },
+];
+const ALL = { id:"all", name:"Everything", accent:"#F0F0F3" };
+const GENRE_ROWS = { movie:[28,35,27,878,18], tv:[10759,35,80,9648,18] };
+const IMG = "https://image.tmdb.org/t/p/";
+
+const S = {
+  key:null, providers:null, genres:{}, genreList:{movie:[],tv:[]},
+  service:"netflix", type:"movie", view:"rows",
+  gridPage:1, gridItems:[], busy:false, current:null,
+};
+
+const $ = (s) => document.querySelector(s);
+const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
+const today = () => new Date().toISOString().slice(0,10);
+const art = (p, size) => p ? IMG + (size||"w342") + p : null;
+const svc = () => S.service === "all" ? ALL : SERVICES.find(s => s.id === S.service);
+
+/* ---- TMDB -------------------------------------------------------- */
+function bearer(k) { return k.length > 60 || k.startsWith("eyJ"); }
+async function tmdb(path, params = {}) {
+  const url = new URL("https://api.themoviedb.org/3" + path);
+  for (const [k,v] of Object.entries(params)) if (v !== undefined && v !== null && v !== "") url.searchParams.set(k, v);
+  const headers = {};
+  if (bearer(S.key)) headers.Authorization = "Bearer " + S.key; else url.searchParams.set("api_key", S.key);
+  let res;
+  try { res = await fetch(url, { headers }); }
+  catch (e) { throw new Error("Couldn't reach TMDB. Check your connection — and if you opened this file directly rather than from a web address, host it instead."); }
+  if (res.status === 401) throw new Error("TMDB rejected that key. Check you pasted the whole thing.");
+  if (!res.ok) throw new Error("TMDB returned " + res.status + ".");
+  return res.json();
+}
+
+/* ---- setup ------------------------------------------------------- */
+$("#keySave").onclick = saveKey;
+$("#keyInput").addEventListener("keydown", e => { if (e.key === "Enter") saveKey(); });
+
+async function saveKey() {
+  const k = $("#keyInput").value.trim();
+  if (!k) return;
+  S.key = k;
+  const err = $("#keyErr");
+  err.classList.add("hidden");
+  try { await tmdb("/configuration"); }
+  catch (e) { err.textContent = e.message; err.classList.remove("hidden"); return; }
+  try { localStorage.setItem("tmdb_key", k); } catch (e) {}
+  start();
+}
+
+$("#forget").onclick = () => {
+  try { localStorage.removeItem("tmdb_key"); } catch (e) {}
+  location.reload();
+};
+
+/* ---- boot -------------------------------------------------------- */
+(function boot() {
+  let stored = null;
+  try { stored = localStorage.getItem("tmdb_key"); } catch (e) {}
+  if (stored) { S.key = stored; start(); }
+})();
+
+async function start() {
+  $("#setup").classList.add("hidden");
+  $("#app").classList.remove("hidden");
+  buildTabs();
+  setStatus("Finding the Australian providers…");
+  const ids = {};
+  try {
+    const list = await tmdb("/watch/providers/movie", { watch_region:"AU" });
+    for (const s of SERVICES) {
+      const hit = list.results.find(p => s.match.includes(p.provider_name.trim().toLowerCase()));
+      ids[s.id] = hit ? hit.provider_id : s.fallback;
+    }
+  } catch (e) { for (const s of SERVICES) ids[s.id] = s.fallback; }
+  S.providers = ids;
+  try {
+    const [m, t] = await Promise.all([tmdb("/genre/movie/list"), tmdb("/genre/tv/list")]);
+    S.genreList.movie = m.genres; S.genreList.tv = t.genres;
+    [...m.genres, ...t.genres].forEach(g => S.genres[g.id] = g.name);
+  } catch (e) {}
+  fillGenreSelect();
+  loadRows();
+}
+
+function setStatus(msg, isErr) {
+  const n = $("#status");
+  if (!msg) { n.classList.add("hidden"); return; }
+  n.textContent = msg;
+  n.style.color = isErr ? "#FF6B6B" : "var(--dim)";
+  n.classList.remove("hidden");
+}
+
+/* ---- chrome ------------------------------------------------------ */
+function buildTabs() {
+  const box = $("#tabs");
+  box.innerHTML = "";
+  [...SERVICES, ALL].forEach(s => {
+    const b = el("button", "tab" + (s.id === S.service ? " on" : ""), s.name);
+    if (s.id === S.service) b.style.borderBottomColor = s.accent;
+    b.onclick = () => { S.service = s.id; setAccent(); buildTabs(); setView("rows"); loadRows(); };
+    box.appendChild(b);
+  });
+}
+function setAccent() { document.documentElement.style.setProperty("--accent", svc().accent); }
+
+document.querySelectorAll("[data-type]").forEach(b => b.onclick = () => {
+  S.type = b.dataset.type;
+  document.querySelectorAll("[data-type]").forEach(x => x.classList.toggle("on", x === b));
+  fillGenreSelect();
+  if (S.view === "grid") { S.gridPage = 1; loadGrid(true); } else { setView("rows"); loadRows(); }
+});
+document.querySelectorAll("[data-view]").forEach(b => b.onclick = () => setView(b.dataset.view));
+
+function setView(v) {
+  S.view = v;
+  document.querySelectorAll("[data-view]").forEach(x => x.classList.toggle("on", x.dataset.view === v));
+  $("#rowsView").classList.toggle("hidden", v !== "rows");
+  $("#gridView").classList.toggle("hidden", v !== "grid");
+  $("#searchView").classList.toggle("hidden", v !== "search");
+  if (v === "grid" && !S.gridItems.length) { S.gridPage = 1; loadGrid(true); }
+}
+
+$("#refresh").onclick = () => {
+  if (S.view === "grid") { S.gridPage = 1; loadGrid(true); }
+  else if (S.view === "search") runSearch();
+  else loadRows();
+};
+
+function fillGenreSelect() {
+  const sel = $("#genre");
+  sel.innerHTML = '<option value="">All genres</option>';
+  [...S.genreList[S.type]].sort((a,b) => a.name.localeCompare(b.name)).forEach(g => {
+    const o = el("option", null, g.name); o.value = g.id; sel.appendChild(o);
+  });
+}
+$("#genre").onchange = () => { S.gridPage = 1; loadGrid(true); };
+$("#sort").onchange = () => { S.gridPage = 1; loadGrid(true); };
+
+/* ---- discover ---------------------------------------------------- */
+async function discover(extra, page) {
+  const base = {
+    watch_region:"AU", with_watch_monetization_types:"flatrate",
+    include_adult:false, language:"en-AU", page: page || 1, ...extra,
+  };
+  if (S.service === "all") {
+    const per = await Promise.all(SERVICES.map(s =>
+      tmdb("/discover/" + S.type, { ...base, with_watch_providers:S.providers[s.id] })
+        .then(d => d.results.map(r => ({ ...r, _s:[s.id] }))).catch(() => [])
+    ));
+    const map = new Map();
+    per.flat().forEach(r => {
+      if (map.has(r.id)) map.get(r.id)._s.push(...r._s); else map.set(r.id, r);
+    });
+    return [...map.values()].sort((a,b) => b.popularity - a.popularity);
+  }
+  const d = await tmdb("/discover/" + S.type, { ...base, with_watch_providers:S.providers[S.service] });
+  return d.results.map(r => ({ ...r, _s:[S.service] }));
+}
+
+/* ---- rows -------------------------------------------------------- */
+async function loadRows() {
+  if (!S.providers) return;
+  setView("rows");
+  $("#rowsView").innerHTML = "";
+  setStatus("Loading the " + svc().name + " catalogue…");
+  const dateKey = S.type === "movie" ? "primary_release_date.lte" : "first_air_date.lte";
+  const newSort = S.type === "movie" ? "primary_release_date.desc" : "first_air_date.desc";
+  const defs = [
+    { title:"Most popular right now", p:{ sort_by:"popularity.desc" } },
+    { title:"Recently added",         p:{ sort_by:newSort, [dateKey]:today(), "vote_count.gte":20 } },
+    { title:"Highest rated",          p:{ sort_by:"vote_average.desc", "vote_count.gte":400 } },
+    ...GENRE_ROWS[S.type].map(g => ({ title:S.genres[g] || "More", p:{ sort_by:"popularity.desc", with_genres:g } })),
+  ];
+  let out;
+  try {
+    out = await Promise.all(defs.map(d =>
+      discover(d.p).then(items => ({ title:d.title, items })).catch(() => ({ title:d.title, items:[] }))));
+  } catch (e) { setStatus(e.message, true); return; }
+
+  if (!out.some(r => r.items.length)) {
+    setStatus("Nothing came back for " + svc().name + ". TMDB may have no AU listings for it right now.", true);
+    return;
+  }
+  setStatus(null);
+  const pool = (out[0].items || []).filter(i => i.backdrop_path);
+  if (pool.length) renderHero(pool[Math.floor(Math.random() * Math.min(pool.length, 6))]);
+  out.forEach(r => renderRow(r.title, r.items));
+}
+
+function renderHero(item) {
+  const wrap = el("div"); wrap.id = "hero";
+  const img = el("img"); img.src = art(item.backdrop_path, "w780"); img.alt = "";
+  const fade = el("div", "fade");
+  const copy = el("div", "copy");
+  copy.appendChild(el("div", "kicker", svc().name.toUpperCase() + " · TRENDING"));
+  copy.appendChild(el("h1", null, item.title || item.name));
+  const b = el("button", null, "More info");
+  b.onclick = () => openDetail(item);
+  copy.appendChild(b);
+  wrap.append(img, fade, copy);
+  $("#rowsView").appendChild(wrap);
+}
+
+function renderRow(title, items) {
+  if (!items.length) return;
+  const sec = el("section", "row");
+  const head = el("div", "rowhead");
+  head.appendChild(el("h2", null, title));
+  const arrows = el("div", "arrows");
+  const strip = el("div", "strip");
+  const mk = (label, dir) => {
+    const a = el("button", "arrow", label);
+    a.onclick = () => strip.scrollBy({ left: dir * strip.clientWidth * 0.85, behavior:"smooth" });
+    return a;
+  };
+  arrows.append(mk("‹", -1), mk("›", 1));
+  head.appendChild(arrows);
+  items.forEach(i => strip.appendChild(card(i)));
+  sec.append(head, strip);
+  $("#rowsView").appendChild(sec);
+}
+
+function card(item) {
+  const b = el("button", "card");
+  const box = el("div", "art");
+  const src = art(item.poster_path);
+  if (src) { const i = el("img"); i.src = src; i.loading = "lazy"; i.alt = ""; box.appendChild(i); }
+  else box.appendChild(el("div", "placeholder", item.title || item.name));
+  b.appendChild(box);
+  b.appendChild(el("div", "ctitle", item.title || item.name));
+  const year = (item.release_date || item.first_air_date || "").slice(0,4);
+  const score = item.vote_average > 0 ? item.vote_average.toFixed(1) : "";
+  b.appendChild(el("div", "cmeta", [year, score].filter(Boolean).join(" · ")));
+  if (item._s && item._s.length) {
+    const dots = el("div", "dots");
+    item._s.forEach(id => {
+      const s = SERVICES.find(x => x.id === id); if (!s) return;
+      const d = el("span", "dot"); d.style.background = s.accent; d.title = s.name; dots.appendChild(d);
+    });
+    b.appendChild(dots);
+  }
+  b.onclick = () => openDetail(item);
+  return b;
+}
+
+/* ---- grid -------------------------------------------------------- */
+async function loadGrid(reset) {
+  if (S.busy || !S.providers) return;
+  S.busy = true;
+  $("#loadmore").textContent = "Loading…";
+  let sort = $("#sort").value;
+  if (sort === "newest") sort = S.type === "movie" ? "primary_release_date.desc" : "first_air_date.desc";
+  const extra = { sort_by:sort, with_genres:$("#genre").value || undefined };
+  if (sort.startsWith("vote_average")) extra["vote_count.gte"] = 400;
+  if (sort.endsWith("release_date.desc") || sort.startsWith("first_air_date")) {
+    extra[S.type === "movie" ? "primary_release_date.lte" : "first_air_date.lte"] = today();
+    extra["vote_count.gte"] = 10;
+  }
+  try {
+    const items = await discover(extra, S.gridPage);
+    if (reset) { S.gridItems = items; $("#gridItems").innerHTML = ""; }
+    else S.gridItems = S.gridItems.concat(items);
+    items.forEach(i => $("#gridItems").appendChild(card(i)));
+    if (!items.length && reset) $("#gridItems").appendChild(el("div", "note", "Nothing matched those filters."));
+  } catch (e) { setStatus(e.message, true); }
+  $("#loadmore").textContent = "Load more";
+  S.busy = false;
+}
+$("#loadmore").onclick = () => { S.gridPage++; loadGrid(false); };
+
+/* ---- search ------------------------------------------------------ */
+$("#search").addEventListener("keydown", e => { if (e.key === "Enter") runSearch(); });
+
+async function runSearch() {
+  const q = $("#search").value.trim();
+  if (!q) return;
+  setView("search");
+  $("#searchItems").innerHTML = "";
+  $("#searchStatus").textContent = "Searching…";
+  try {
+    const d = await tmdb("/search/" + S.type, { query:q, include_adult:false });
+    const top = d.results.slice(0, 20);
+    const checked = await Promise.all(top.map(async r => {
+      try {
+        const p = await tmdb("/" + S.type + "/" + r.id + "/watch/providers");
+        const au = (p.results && p.results.AU && p.results.AU.flatrate) || [];
+        return { ...r, _s: SERVICES.filter(s => au.some(x => x.provider_id === S.providers[s.id])).map(s => s.id) };
+      } catch (e) { return { ...r, _s: [] }; }
+    }));
+    const hits = checked.filter(r => r._s.length);
+    $("#searchStatus").textContent = hits.length
+      ? hits.length + " streaming on these four in Australia"
+      : "No match on Netflix, HBO Max, Disney+ or Paramount+. Films and series are searched separately — try the other toggle.";
+    hits.forEach(h => $("#searchItems").appendChild(card(h)));
+  } catch (e) { $("#searchStatus").textContent = e.message; }
+}
+
+/* ---- detail ------------------------------------------------------ */
+async function openDetail(item) {
+  S.current = item;
+  const sheet = $("#sheet");
+  sheet.innerHTML = "";
+  if (item.backdrop_path) {
+    const bd = el("div", "backdrop");
+    const i = el("img"); i.src = art(item.backdrop_path, "w780"); i.alt = "";
+    bd.append(i, el("div", "fade"));
+    sheet.appendChild(bd);
+  }
+  const body = el("div", "body");
+  body.appendChild(el("h2", null, item.title || item.name));
+  const meta = el("div", "meta", (item.release_date || item.first_air_date || "").slice(0,4));
+  body.appendChild(meta);
+  const where = el("div", "where"); body.appendChild(where);
+  body.appendChild(el("p", null, item.overview || "No synopsis on file."));
+  const extra = el("div"); body.appendChild(extra);
+  const close = el("button", "close", "Close");
+  close.onclick = closeDetail;
+  body.appendChild(close);
+  sheet.appendChild(body);
+  $("#modal").classList.remove("hidden");
+  sheet.scrollTop = 0;
+
+  try {
+    const d = await tmdb("/" + S.type + "/" + item.id, { append_to_response:"credits,watch/providers" });
+    const bits = [(item.release_date || item.first_air_date || "").slice(0,4)];
+    if (d.runtime) bits.push(d.runtime + " min");
+    if (d.number_of_seasons) bits.push(d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : ""));
+    if (item.vote_average > 0) bits.push(item.vote_average.toFixed(1) + " on TMDB");
+    meta.textContent = bits.filter(Boolean).join(" · ");
+    const au = (d["watch/providers"] && d["watch/providers"].results && d["watch/providers"].results.AU && d["watch/providers"].results.AU.flatrate) || [];
+    au.forEach(p => where.appendChild(el("span", "chip", p.provider_name)));
+    if (d.genres && d.genres.length) extra.appendChild(el("div", "sub", d.genres.map(g => g.name).join(" · ")));
+    const cast = (d.credits && d.credits.cast || []).slice(0,5).map(c => c.name).join(", ");
+    if (cast) extra.appendChild(el("div", "sub", "With " + cast));
+  } catch (e) {}
+}
+function closeDetail() { $("#modal").classList.add("hidden"); }
+$("#modal").onclick = (e) => { if (e.target.id === "modal") closeDetail(); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDetail(); });
+</script>
+</body>
+</html>
