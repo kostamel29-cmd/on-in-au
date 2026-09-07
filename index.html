@@ -18,24 +18,20 @@
   body { padding-bottom:70px; }
   ::-webkit-scrollbar { width:0; height:0; }
   button { font-family:inherit; cursor:pointer; }
-  a { color:inherit; }
   .hidden { display:none !important; }
 
-  /* setup */
   #setup { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
   #setup .box { max-width:460px; width:100%; }
   .eyebrow { font-size:11px; letter-spacing:.22em; color:var(--dim); margin-bottom:14px; }
   #setup h1 { font-size:38px; line-height:1.03; font-weight:800; letter-spacing:-.035em; margin:0 0 18px; }
   #setup p { color:var(--dim); font-size:14px; line-height:1.6; margin:0 0 22px; }
-  input, select, textarea { font-family:inherit; }
   .field { width:100%; background:var(--surface); border:1px solid var(--line); color:var(--text);
-    padding:14px 16px; border-radius:10px; font-size:15px; outline:none; margin-bottom:12px; }
+    padding:14px 16px; border-radius:10px; font-size:15px; outline:none; margin-bottom:12px; font-family:inherit; }
   .primary { width:100%; background:var(--text); color:#000; border:none; padding:14px;
     border-radius:10px; font-size:15px; font-weight:700; }
   .err { color:#FF6B6B; font-size:13px; margin-bottom:12px; line-height:1.5; }
   .quiet { display:block; text-align:center; color:var(--dim); font-size:13px; margin-top:16px; text-decoration:none; }
 
-  /* header */
   header { position:sticky; top:0; z-index:30; background:rgba(8,8,10,.9);
     backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line);
     padding-top:env(safe-area-inset-top); }
@@ -44,11 +40,13 @@
   .brand span { color:var(--accent); transition:color .3s; }
   .spacer { flex:1; }
   #search { background:var(--surface); border:1px solid var(--line); color:var(--text);
-    border-radius:8px; padding:7px 11px; font-size:13px; width:110px; outline:none; }
+    border-radius:8px; padding:7px 11px; font-size:13px; width:96px; outline:none; font-family:inherit; }
   .icon { width:32px; height:30px; border-radius:8px; border:1px solid var(--line);
     background:var(--surface); color:var(--text); font-size:14px; display:flex;
-    align-items:center; justify-content:center; padding:0; }
-  .tabs { display:flex; gap:0; padding:10px 20px 0; overflow-x:auto; }
+    align-items:center; justify-content:center; padding:0; position:relative; flex:0 0 auto; }
+  .icon .count { position:absolute; top:-6px; right:-6px; background:var(--accent); color:#08080A;
+    font-size:9px; font-weight:800; border-radius:8px; padding:1px 4px; min-width:14px; }
+  .tabs { display:flex; padding:10px 20px 0; overflow-x:auto; }
   .tab { background:none; border:none; color:var(--dim); font-size:13.5px; font-weight:500;
     padding:6px 2px; margin-right:16px; white-space:nowrap; border-bottom:2px solid transparent; }
   .tab.on { color:var(--text); font-weight:700; }
@@ -58,11 +56,9 @@
   .pill.on { background:var(--accent); border-color:var(--accent); color:#08080A; font-weight:700; }
   .divider { width:1px; height:18px; background:var(--line); flex:0 0 auto; }
 
-  /* hero */
   #hero { position:relative; margin-bottom:26px; }
   #hero img { width:100%; display:block; opacity:.62; }
-  #hero .fade { position:absolute; inset:0;
-    background:linear-gradient(to bottom, rgba(8,8,10,.1), var(--bg) 92%); }
+  #hero .fade { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(8,8,10,.1), var(--bg) 92%); }
   #hero .copy { position:absolute; bottom:16px; left:20px; right:20px; }
   #hero .kicker { font-size:10.5px; letter-spacing:.2em; color:var(--accent); font-weight:700; margin-bottom:6px; }
   #hero h1 { font-size:30px; font-weight:800; letter-spacing:-.035em; margin:0; line-height:1.05;
@@ -70,7 +66,6 @@
   #hero button { margin-top:12px; background:var(--text); color:#000; border:none;
     padding:9px 18px; border-radius:8px; font-size:13.5px; font-weight:700; }
 
-  /* rows */
   .row { margin-bottom:32px; }
   .rowhead { display:flex; align-items:baseline; justify-content:space-between; padding:0 20px; margin-bottom:12px; }
   .rowhead h2 { font-size:15px; font-weight:700; letter-spacing:-.01em; margin:0; }
@@ -79,14 +74,17 @@
     background:var(--surface); color:var(--text); font-size:16px; line-height:1; padding:0; }
   .strip { display:flex; gap:12px; overflow-x:auto; padding:4px 20px 8px; scrollbar-width:none; }
 
-  /* cards */
-  .card { width:148px; flex:0 0 auto; background:none; border:none; padding:0; text-align:left;
-    color:var(--text); transition:transform .18s ease; }
-  .card:hover { transform:translateY(-4px); }
-  .grid .card { width:100%; }
-  .art { aspect-ratio:2/3; border-radius:8px; overflow:hidden; background:var(--hi); }
+  .card { width:148px; flex:0 0 auto; }
+  .grid .card { width:auto; }
+  .artwrap { position:relative; }
+  .art { aspect-ratio:2/3; border-radius:8px; overflow:hidden; background:var(--hi); width:100%;
+    border:none; padding:0; display:block; }
   .art img { width:100%; height:100%; object-fit:cover; display:block; }
-  .art .placeholder { padding:10px; font-size:12px; color:var(--dim); }
+  .art .placeholder { padding:10px; font-size:12px; color:var(--dim); text-align:left; }
+  .star { position:absolute; top:6px; right:6px; width:30px; height:30px; border-radius:15px;
+    border:none; background:rgba(8,8,10,.6); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    color:#fff; font-size:15px; line-height:1; padding:0; display:flex; align-items:center; justify-content:center; }
+  .star.on { background:var(--accent); color:#08080A; }
   .ctitle { font-size:12.5px; margin-top:8px; line-height:1.3; overflow:hidden;
     text-overflow:ellipsis; white-space:nowrap; }
   .cmeta { font-size:11px; color:var(--dim); margin-top:2px; }
@@ -98,11 +96,12 @@
   .note { color:var(--dim); font-size:13.5px; line-height:1.6; }
   .loadmore { width:100%; margin-top:22px; padding:14px; border-radius:10px;
     border:1px solid var(--line); background:var(--surface); color:var(--text); font-size:14px; }
-  .selects { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .selects { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center; }
   .selects select { background:var(--surface); color:var(--text); border:1px solid var(--line);
-    border-radius:8px; padding:8px 11px; font-size:13px; outline:none; }
+    border-radius:8px; padding:8px 11px; font-size:13px; outline:none; font-family:inherit; }
+  .legend { display:flex; gap:12px; flex-wrap:wrap; padding:0 20px 18px; }
+  .legend span.item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--dim); }
 
-  /* modal */
   #modal { position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:50;
     display:flex; align-items:flex-end; justify-content:center; }
   #sheet { background:var(--surface); width:100%; max-width:680px; max-height:88vh; overflow-y:auto;
@@ -119,8 +118,13 @@
     background:var(--hi); border:1px solid var(--line); }
   #sheet p { font-size:14.5px; line-height:1.62; color:#D4D4DA; margin:0 0 16px; }
   #sheet .sub { font-size:12.5px; color:var(--dim); margin-bottom:6px; }
-  #sheet .close { margin-top:22px; width:100%; padding:13px; border-radius:10px;
+  #sheet .act { width:100%; padding:13px; border-radius:10px; margin-top:10px;
     border:1px solid var(--line); background:var(--hi); color:var(--text); font-size:14px; }
+  #sheet .act.mark { background:var(--accent); border-color:var(--accent); color:#08080A; font-weight:700; }
+  #toast { position:fixed; left:50%; transform:translateX(-50%); bottom:30px; z-index:60;
+    background:var(--text); color:#000; padding:10px 18px; border-radius:20px;
+    font-size:13px; font-weight:600; opacity:0; transition:opacity .25s; pointer-events:none; }
+  #toast.show { opacity:1; }
   @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
 </style>
 </head>
@@ -135,18 +139,19 @@
     <input id="keyInput" class="field" placeholder="Paste key" spellcheck="false" autocapitalize="off" autocorrect="off">
     <div id="keyErr" class="err hidden"></div>
     <button class="primary" id="keySave">Load catalogues</button>
-    <a class="quiet" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noreferrer">Get a key at themoviedb.org →</a>
+    <a class="quiet" href="https://www.themoviedb.org/settings/api" target="_blank" rel="noreferrer">Get a key at themoviedb.org &rarr;</a>
   </div>
 </div>
 
 <div id="app" class="hidden">
   <header>
     <div class="bar">
-      <div class="brand">On&nbsp;in&nbsp;<span id="brandAccent">AU</span></div>
+      <div class="brand">On&nbsp;in&nbsp;<span>AU</span></div>
       <div class="spacer"></div>
       <input id="search" placeholder="Search" autocapitalize="off">
-      <button class="icon" id="refresh" title="Refresh">↻</button>
-      <button class="icon" id="forget" title="Remove key">⌫</button>
+      <button class="icon" id="watchBtn" title="Watchlist">&#9733;<span class="count hidden" id="watchCount">0</span></button>
+      <button class="icon" id="refresh" title="Refresh">&#8635;</button>
+      <button class="icon" id="forget" title="Remove key">&#9003;</button>
     </div>
     <div class="tabs" id="tabs"></div>
     <div class="controls">
@@ -155,6 +160,7 @@
       <div class="divider"></div>
       <button class="pill on" data-view="rows">Browse</button>
       <button class="pill" data-view="grid">Full library</button>
+      <button class="pill" data-view="watch">Watchlist</button>
     </div>
   </header>
 
@@ -166,10 +172,12 @@
       <select id="sort">
         <option value="popularity.desc">Most popular</option>
         <option value="newest">Newest</option>
+        <option value="recent">Out in the last 90 days</option>
         <option value="vote_average.desc">Highest rated</option>
-        <option value="title.asc">A–Z</option>
+        <option value="title.asc">A&ndash;Z</option>
       </select>
       <select id="genre"><option value="">All genres</option></select>
+      <button class="pill hidden" id="exclusives">Exclusives only</button>
     </div>
     <div class="grid" id="gridItems"></div>
     <button class="loadmore" id="loadmore">Load more</button>
@@ -179,355 +187,500 @@
     <div class="note" id="searchStatus" style="margin-bottom:14px"></div>
     <div class="grid" id="searchItems"></div>
   </div>
+
+  <div id="watchView" class="pad hidden">
+    <div class="selects">
+      <button class="pill" id="copyList">Copy as text</button>
+      <button class="pill" id="copyCsv">Copy as CSV</button>
+      <button class="pill" id="clearList">Clear all</button>
+    </div>
+    <div class="note hidden" id="watchEmpty"></div>
+    <div class="grid" id="watchItems"></div>
+  </div>
 </div>
 
 <div id="modal" class="hidden"><div id="sheet"></div></div>
+<div id="toast"></div>
 
 <script>
-/* ------------------------------------------------------------------ */
-const SERVICES = [
+var SERVICES = [
   { id:"netflix",   name:"Netflix",    match:["netflix"],        fallback:8,    accent:"#E50914" },
   { id:"hbomax",    name:"HBO Max",    match:["hbo max","max"],  fallback:1899, accent:"#A855F7" },
   { id:"disney",    name:"Disney+",    match:["disney plus"],    fallback:337,  accent:"#38BDF8" },
   { id:"paramount", name:"Paramount+", match:["paramount plus"], fallback:531,  accent:"#3B6BF5" },
+  { id:"appletv",   name:"Apple TV+",  match:["apple tv plus","apple tv+"], fallback:350, accent:"#A8B0BC" }
 ];
-const ALL = { id:"all", name:"Everything", accent:"#F0F0F3" };
-const GENRE_ROWS = { movie:[28,35,27,878,18], tv:[10759,35,80,9648,18] };
-const IMG = "https://image.tmdb.org/t/p/";
+var ALL = { id:"all", name:"Everything", accent:"#F0F0F3" };
+var GENRE_ROWS = { movie:[28,35,27,878,18], tv:[10759,35,80,9648,18] };
+var IMG = "https://image.tmdb.org/t/p/";
 
-const S = {
+var S = {
   key:null, providers:null, genres:{}, genreList:{movie:[],tv:[]},
   service:"netflix", type:"movie", view:"rows",
-  gridPage:1, gridItems:[], busy:false, current:null,
+  gridPage:1, busy:false, exclusives:false, watch:[]
 };
 
-const $ = (s) => document.querySelector(s);
-const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; };
-const today = () => new Date().toISOString().slice(0,10);
-const art = (p, size) => p ? IMG + (size||"w342") + p : null;
-const svc = () => S.service === "all" ? ALL : SERVICES.find(s => s.id === S.service);
+function $(s){ return document.querySelector(s); }
+function el(t,c,x){ var n=document.createElement(t); if(c) n.className=c; if(x!=null) n.textContent=x; return n; }
+function today(){ return new Date().toISOString().slice(0,10); }
+function daysAgo(d){ return new Date(Date.now()-d*864e5).toISOString().slice(0,10); }
+function art(p,s){ return p ? IMG+(s||"w342")+p : null; }
+function svc(){ return S.service==="all" ? ALL : SERVICES.filter(function(s){return s.id===S.service;})[0]; }
+function titleOf(i){ return i.title || i.name || ""; }
+function yearOf(i){ return (i.release_date || i.first_air_date || i.year || "").toString().slice(0,4); }
+
+function toast(msg){
+  var t=$("#toast"); t.textContent=msg; t.classList.add("show");
+  clearTimeout(t._h); t._h=setTimeout(function(){ t.classList.remove("show"); },1800);
+}
 
 /* ---- TMDB -------------------------------------------------------- */
-function bearer(k) { return k.length > 60 || k.startsWith("eyJ"); }
-async function tmdb(path, params = {}) {
-  const url = new URL("https://api.themoviedb.org/3" + path);
-  for (const [k,v] of Object.entries(params)) if (v !== undefined && v !== null && v !== "") url.searchParams.set(k, v);
-  const headers = {};
-  if (bearer(S.key)) headers.Authorization = "Bearer " + S.key; else url.searchParams.set("api_key", S.key);
-  let res;
-  try { res = await fetch(url, { headers }); }
-  catch (e) { throw new Error("Couldn't reach TMDB. Check your connection — and if you opened this file directly rather than from a web address, host it instead."); }
-  if (res.status === 401) throw new Error("TMDB rejected that key. Check you pasted the whole thing.");
-  if (!res.ok) throw new Error("TMDB returned " + res.status + ".");
-  return res.json();
+function tmdb(path, params){
+  params = params || {};
+  var url = new URL("https://api.themoviedb.org/3"+path);
+  Object.keys(params).forEach(function(k){
+    var v = params[k];
+    if (v!==undefined && v!==null && v!=="") url.searchParams.set(k,v);
+  });
+  var headers = {};
+  if (S.key.length>60 || S.key.indexOf("eyJ")===0) headers.Authorization = "Bearer "+S.key;
+  else url.searchParams.set("api_key", S.key);
+  return fetch(url, { headers: headers }).catch(function(){
+    throw new Error("Couldn't reach TMDB. Check your connection.");
+  }).then(function(res){
+    if (res.status === 401) throw new Error("TMDB rejected that key. Check you pasted the whole thing.");
+    if (!res.ok) throw new Error("TMDB returned "+res.status+".");
+    return res.json();
+  });
+}
+
+/* ---- watchlist --------------------------------------------------- */
+function loadWatch(){ try { S.watch = JSON.parse(localStorage.getItem("watchlist")||"[]"); } catch(e){ S.watch=[]; } }
+function saveWatch(){
+  try { localStorage.setItem("watchlist", JSON.stringify(S.watch)); } catch(e){}
+  var c=$("#watchCount"); c.textContent=S.watch.length; c.classList.toggle("hidden", !S.watch.length);
+}
+function wkey(item,type){ return (type||S.type)+":"+item.id; }
+function inWatch(item,type){
+  var k=wkey(item,type);
+  return S.watch.some(function(w){ return w.k===k; });
+}
+function toggleWatch(item,type){
+  var k=wkey(item,type), i=-1;
+  S.watch.forEach(function(w,ix){ if(w.k===k) i=ix; });
+  if (i>=0) { S.watch.splice(i,1); toast("Removed"); }
+  else {
+    S.watch.push({ k:k, id:item.id, type:type||S.type, title:titleOf(item)||item.title,
+      year:yearOf(item), poster:item.poster_path||item.poster||null,
+      s:item._s||item.s||[], added:today() });
+    toast("Saved to watchlist");
+  }
+  saveWatch();
+  if (S.view==="watch") renderWatch();
+  return i<0;
 }
 
 /* ---- setup ------------------------------------------------------- */
 $("#keySave").onclick = saveKey;
-$("#keyInput").addEventListener("keydown", e => { if (e.key === "Enter") saveKey(); });
-
-async function saveKey() {
-  const k = $("#keyInput").value.trim();
-  if (!k) return;
-  S.key = k;
-  const err = $("#keyErr");
-  err.classList.add("hidden");
-  try { await tmdb("/configuration"); }
-  catch (e) { err.textContent = e.message; err.classList.remove("hidden"); return; }
-  try { localStorage.setItem("tmdb_key", k); } catch (e) {}
-  start();
+$("#keyInput").addEventListener("keydown", function(e){ if(e.key==="Enter") saveKey(); });
+function saveKey(){
+  var k=$("#keyInput").value.trim(); if(!k) return;
+  S.key=k;
+  var err=$("#keyErr"); err.classList.add("hidden");
+  tmdb("/configuration").then(function(){
+    try { localStorage.setItem("tmdb_key", k); } catch(e){}
+    start();
+  }).catch(function(e){ err.textContent=e.message; err.classList.remove("hidden"); });
 }
+$("#forget").onclick = function(){ try{ localStorage.removeItem("tmdb_key"); }catch(e){} location.reload(); };
 
-$("#forget").onclick = () => {
-  try { localStorage.removeItem("tmdb_key"); } catch (e) {}
-  location.reload();
-};
-
-/* ---- boot -------------------------------------------------------- */
-(function boot() {
-  let stored = null;
-  try { stored = localStorage.getItem("tmdb_key"); } catch (e) {}
-  if (stored) { S.key = stored; start(); }
+(function boot(){
+  loadWatch(); saveWatch();
+  var stored=null; try { stored=localStorage.getItem("tmdb_key"); } catch(e){}
+  if (stored) { S.key=stored; start(); }
 })();
 
-async function start() {
+function start(){
   $("#setup").classList.add("hidden");
   $("#app").classList.remove("hidden");
   buildTabs();
-  setStatus("Finding the Australian providers…");
-  const ids = {};
-  try {
-    const list = await tmdb("/watch/providers/movie", { watch_region:"AU" });
-    for (const s of SERVICES) {
-      const hit = list.results.find(p => s.match.includes(p.provider_name.trim().toLowerCase()));
+  setStatus("Finding the Australian providers\u2026");
+  tmdb("/watch/providers/movie", { watch_region:"AU" }).then(function(list){
+    var ids={};
+    SERVICES.forEach(function(s){
+      var hit = list.results.filter(function(p){
+        return s.match.indexOf(p.provider_name.trim().toLowerCase()) >= 0; })[0];
       ids[s.id] = hit ? hit.provider_id : s.fallback;
-    }
-  } catch (e) { for (const s of SERVICES) ids[s.id] = s.fallback; }
-  S.providers = ids;
-  try {
-    const [m, t] = await Promise.all([tmdb("/genre/movie/list"), tmdb("/genre/tv/list")]);
-    S.genreList.movie = m.genres; S.genreList.tv = t.genres;
-    [...m.genres, ...t.genres].forEach(g => S.genres[g.id] = g.name);
-  } catch (e) {}
-  fillGenreSelect();
-  loadRows();
+    });
+    return ids;
+  }).catch(function(){
+    var ids={}; SERVICES.forEach(function(s){ ids[s.id]=s.fallback; }); return ids;
+  }).then(function(ids){
+    S.providers = ids;
+    return Promise.all([tmdb("/genre/movie/list"), tmdb("/genre/tv/list")]).then(function(r){
+      S.genreList.movie=r[0].genres; S.genreList.tv=r[1].genres;
+      r[0].genres.concat(r[1].genres).forEach(function(g){ S.genres[g.id]=g.name; });
+    }).catch(function(){});
+  }).then(function(){
+    fillGenreSelect();
+    loadRows();
+  });
 }
 
-function setStatus(msg, isErr) {
-  const n = $("#status");
-  if (!msg) { n.classList.add("hidden"); return; }
-  n.textContent = msg;
-  n.style.color = isErr ? "#FF6B6B" : "var(--dim)";
+function setStatus(msg, isErr){
+  var n=$("#status");
+  if(!msg){ n.classList.add("hidden"); return; }
+  n.textContent=msg; n.style.color = isErr ? "#FF6B6B" : "var(--dim)";
   n.classList.remove("hidden");
 }
 
 /* ---- chrome ------------------------------------------------------ */
-function buildTabs() {
-  const box = $("#tabs");
-  box.innerHTML = "";
-  [...SERVICES, ALL].forEach(s => {
-    const b = el("button", "tab" + (s.id === S.service ? " on" : ""), s.name);
-    if (s.id === S.service) b.style.borderBottomColor = s.accent;
-    b.onclick = () => { S.service = s.id; setAccent(); buildTabs(); setView("rows"); loadRows(); };
+function buildTabs(){
+  var box=$("#tabs"); box.innerHTML="";
+  SERVICES.concat([ALL]).forEach(function(s){
+    var b=el("button","tab"+(s.id===S.service?" on":""), s.name);
+    if (s.id===S.service) b.style.borderBottomColor=s.accent;
+    b.onclick=function(){
+      S.service=s.id; setAccent(); buildTabs(); toggleExclusiveBtn();
+      S.exclusives=false; $("#exclusives").classList.remove("on");
+      setView("rows"); loadRows();
+    };
     box.appendChild(b);
   });
 }
-function setAccent() { document.documentElement.style.setProperty("--accent", svc().accent); }
+function setAccent(){ document.documentElement.style.setProperty("--accent", svc().accent); }
+function toggleExclusiveBtn(){ $("#exclusives").classList.toggle("hidden", S.service!=="all"); }
 
-document.querySelectorAll("[data-type]").forEach(b => b.onclick = () => {
-  S.type = b.dataset.type;
-  document.querySelectorAll("[data-type]").forEach(x => x.classList.toggle("on", x === b));
-  fillGenreSelect();
-  if (S.view === "grid") { S.gridPage = 1; loadGrid(true); } else { setView("rows"); loadRows(); }
+Array.prototype.forEach.call(document.querySelectorAll("[data-type]"), function(b){
+  b.onclick=function(){
+    S.type=b.dataset.type;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-type]"), function(x){
+      x.classList.toggle("on", x===b); });
+    fillGenreSelect();
+    if (S.view==="watch") renderWatch();
+    else if (S.view==="grid") { S.gridPage=1; loadGrid(true); }
+    else { setView("rows"); loadRows(); }
+  };
 });
-document.querySelectorAll("[data-view]").forEach(b => b.onclick = () => setView(b.dataset.view));
+Array.prototype.forEach.call(document.querySelectorAll("[data-view]"), function(b){
+  b.onclick=function(){ setView(b.dataset.view); };
+});
+$("#watchBtn").onclick=function(){ setView("watch"); };
 
-function setView(v) {
-  S.view = v;
-  document.querySelectorAll("[data-view]").forEach(x => x.classList.toggle("on", x.dataset.view === v));
-  $("#rowsView").classList.toggle("hidden", v !== "rows");
-  $("#gridView").classList.toggle("hidden", v !== "grid");
-  $("#searchView").classList.toggle("hidden", v !== "search");
-  if (v === "grid" && !S.gridItems.length) { S.gridPage = 1; loadGrid(true); }
+function setView(v){
+  S.view=v;
+  Array.prototype.forEach.call(document.querySelectorAll("[data-view]"), function(x){
+    x.classList.toggle("on", x.dataset.view===v); });
+  $("#rowsView").classList.toggle("hidden", v!=="rows");
+  $("#gridView").classList.toggle("hidden", v!=="grid");
+  $("#searchView").classList.toggle("hidden", v!=="search");
+  $("#watchView").classList.toggle("hidden", v!=="watch");
+  if (v==="grid") { S.gridPage=1; loadGrid(true); }
+  if (v==="watch") renderWatch();
 }
 
-$("#refresh").onclick = () => {
-  if (S.view === "grid") { S.gridPage = 1; loadGrid(true); }
-  else if (S.view === "search") runSearch();
+$("#refresh").onclick=function(){
+  if (S.view==="grid") { S.gridPage=1; loadGrid(true); }
+  else if (S.view==="search") runSearch();
+  else if (S.view==="watch") renderWatch();
   else loadRows();
 };
 
-function fillGenreSelect() {
-  const sel = $("#genre");
-  sel.innerHTML = '<option value="">All genres</option>';
-  [...S.genreList[S.type]].sort((a,b) => a.name.localeCompare(b.name)).forEach(g => {
-    const o = el("option", null, g.name); o.value = g.id; sel.appendChild(o);
-  });
+function fillGenreSelect(){
+  var sel=$("#genre");
+  sel.innerHTML='<option value="">All genres</option>';
+  S.genreList[S.type].slice().sort(function(a,b){ return a.name.localeCompare(b.name); })
+    .forEach(function(g){ var o=el("option",null,g.name); o.value=g.id; sel.appendChild(o); });
 }
-$("#genre").onchange = () => { S.gridPage = 1; loadGrid(true); };
-$("#sort").onchange = () => { S.gridPage = 1; loadGrid(true); };
+$("#genre").onchange=function(){ S.gridPage=1; loadGrid(true); };
+$("#sort").onchange=function(){ S.gridPage=1; loadGrid(true); };
+$("#exclusives").onclick=function(){
+  S.exclusives=!S.exclusives;
+  $("#exclusives").classList.toggle("on", S.exclusives);
+  S.gridPage=1; loadGrid(true);
+};
 
 /* ---- discover ---------------------------------------------------- */
-async function discover(extra, page) {
-  const base = {
-    watch_region:"AU", with_watch_monetization_types:"flatrate",
-    include_adult:false, language:"en-AU", page: page || 1, ...extra,
-  };
-  if (S.service === "all") {
-    const per = await Promise.all(SERVICES.map(s =>
-      tmdb("/discover/" + S.type, { ...base, with_watch_providers:S.providers[s.id] })
-        .then(d => d.results.map(r => ({ ...r, _s:[s.id] }))).catch(() => [])
-    ));
-    const map = new Map();
-    per.flat().forEach(r => {
-      if (map.has(r.id)) map.get(r.id)._s.push(...r._s); else map.set(r.id, r);
+function discover(extra, page){
+  var base = { watch_region:"AU", with_watch_monetization_types:"flatrate",
+    include_adult:false, language:"en-AU", page:page||1 };
+  Object.keys(extra||{}).forEach(function(k){ base[k]=extra[k]; });
+  if (S.service==="all") {
+    return Promise.all(SERVICES.map(function(s){
+      var p={}; Object.keys(base).forEach(function(k){ p[k]=base[k]; });
+      p.with_watch_providers=S.providers[s.id];
+      return tmdb("/discover/"+S.type, p).then(function(d){
+        return d.results.map(function(r){ r._s=[s.id]; return r; });
+      }).catch(function(){ return []; });
+    })).then(function(per){
+      var map={}, order=[];
+      per.forEach(function(list){ list.forEach(function(r){
+        if (map[r.id]) map[r.id]._s = map[r.id]._s.concat(r._s);
+        else { map[r.id]=r; order.push(r.id); }
+      }); });
+      var out = order.map(function(id){ return map[id]; })
+        .sort(function(a,b){ return b.popularity-a.popularity; });
+      if (S.exclusives) out = out.filter(function(r){ return r._s.length===1; });
+      return out;
     });
-    return [...map.values()].sort((a,b) => b.popularity - a.popularity);
   }
-  const d = await tmdb("/discover/" + S.type, { ...base, with_watch_providers:S.providers[S.service] });
-  return d.results.map(r => ({ ...r, _s:[S.service] }));
+  base.with_watch_providers = S.providers[S.service];
+  return tmdb("/discover/"+S.type, base).then(function(d){
+    return d.results.map(function(r){ r._s=[S.service]; return r; });
+  });
 }
 
 /* ---- rows -------------------------------------------------------- */
-async function loadRows() {
+function loadRows(){
   if (!S.providers) return;
   setView("rows");
-  $("#rowsView").innerHTML = "";
-  setStatus("Loading the " + svc().name + " catalogue…");
-  const dateKey = S.type === "movie" ? "primary_release_date.lte" : "first_air_date.lte";
-  const newSort = S.type === "movie" ? "primary_release_date.desc" : "first_air_date.desc";
-  const defs = [
+  $("#rowsView").innerHTML="";
+  setStatus("Loading the "+svc().name+" catalogue\u2026");
+  var lte = S.type==="movie" ? "primary_release_date.lte" : "first_air_date.lte";
+  var gte = S.type==="movie" ? "primary_release_date.gte" : "first_air_date.gte";
+  var newSort = S.type==="movie" ? "primary_release_date.desc" : "first_air_date.desc";
+  var defs = [
     { title:"Most popular right now", p:{ sort_by:"popularity.desc" } },
-    { title:"Recently added",         p:{ sort_by:newSort, [dateKey]:today(), "vote_count.gte":20 } },
-    { title:"Highest rated",          p:{ sort_by:"vote_average.desc", "vote_count.gte":400 } },
-    ...GENRE_ROWS[S.type].map(g => ({ title:S.genres[g] || "More", p:{ sort_by:"popularity.desc", with_genres:g } })),
+    { title:"Out in the last 90 days", p:(function(){ var o={sort_by:newSort}; o[gte]=daysAgo(90); o[lte]=today(); return o; })() },
+    { title:"Highest rated", p:{ sort_by:"vote_average.desc", "vote_count.gte":400 } }
   ];
-  let out;
-  try {
-    out = await Promise.all(defs.map(d =>
-      discover(d.p).then(items => ({ title:d.title, items })).catch(() => ({ title:d.title, items:[] }))));
-  } catch (e) { setStatus(e.message, true); return; }
-
-  if (!out.some(r => r.items.length)) {
-    setStatus("Nothing came back for " + svc().name + ". TMDB may have no AU listings for it right now.", true);
-    return;
-  }
-  setStatus(null);
-  const pool = (out[0].items || []).filter(i => i.backdrop_path);
-  if (pool.length) renderHero(pool[Math.floor(Math.random() * Math.min(pool.length, 6))]);
-  out.forEach(r => renderRow(r.title, r.items));
+  GENRE_ROWS[S.type].forEach(function(g){
+    defs.push({ title:S.genres[g]||"More", p:{ sort_by:"popularity.desc", with_genres:g } });
+  });
+  Promise.all(defs.map(function(d){
+    return discover(d.p).then(function(items){ return { title:d.title, items:items }; })
+      .catch(function(){ return { title:d.title, items:[] }; });
+  })).then(function(out){
+    if (!out.some(function(r){ return r.items.length; })) {
+      setStatus("Nothing came back for "+svc().name+". TMDB may have no AU listings for it right now.", true);
+      return;
+    }
+    setStatus(null);
+    var pool = out[0].items.filter(function(i){ return i.backdrop_path; });
+    if (pool.length) renderHero(pool[Math.floor(Math.random()*Math.min(pool.length,6))]);
+    if (S.service==="all") renderLegend();
+    out.forEach(function(r){ renderRow(r.title, r.items); });
+  }).catch(function(e){ setStatus(e.message, true); });
 }
 
-function renderHero(item) {
-  const wrap = el("div"); wrap.id = "hero";
-  const img = el("img"); img.src = art(item.backdrop_path, "w780"); img.alt = "";
-  const fade = el("div", "fade");
-  const copy = el("div", "copy");
-  copy.appendChild(el("div", "kicker", svc().name.toUpperCase() + " · TRENDING"));
-  copy.appendChild(el("h1", null, item.title || item.name));
-  const b = el("button", null, "More info");
-  b.onclick = () => openDetail(item);
+function renderLegend(){
+  var box=el("div","legend");
+  SERVICES.forEach(function(s){
+    var w=el("span","item");
+    var d=el("span","dot"); d.style.background=s.accent;
+    w.appendChild(d); w.appendChild(document.createTextNode(s.name));
+    box.appendChild(w);
+  });
+  $("#rowsView").appendChild(box);
+}
+
+function renderHero(item){
+  var wrap=el("div"); wrap.id="hero";
+  var img=el("img"); img.src=art(item.backdrop_path,"w780"); img.alt="";
+  var copy=el("div","copy");
+  copy.appendChild(el("div","kicker", svc().name.toUpperCase()+" \u00B7 TRENDING"));
+  copy.appendChild(el("h1",null,titleOf(item)));
+  var b=el("button",null,"More info"); b.onclick=function(){ openDetail(item); };
   copy.appendChild(b);
-  wrap.append(img, fade, copy);
+  wrap.appendChild(img); wrap.appendChild(el("div","fade")); wrap.appendChild(copy);
   $("#rowsView").appendChild(wrap);
 }
 
-function renderRow(title, items) {
+function renderRow(title, items){
   if (!items.length) return;
-  const sec = el("section", "row");
-  const head = el("div", "rowhead");
-  head.appendChild(el("h2", null, title));
-  const arrows = el("div", "arrows");
-  const strip = el("div", "strip");
-  const mk = (label, dir) => {
-    const a = el("button", "arrow", label);
-    a.onclick = () => strip.scrollBy({ left: dir * strip.clientWidth * 0.85, behavior:"smooth" });
-    return a;
-  };
-  arrows.append(mk("‹", -1), mk("›", 1));
+  var sec=el("section","row");
+  var head=el("div","rowhead");
+  head.appendChild(el("h2",null,title));
+  var strip=el("div","strip");
+  var arrows=el("div","arrows");
+  [["\u2039",-1],["\u203A",1]].forEach(function(pair){
+    var a=el("button","arrow",pair[0]);
+    a.onclick=function(){ strip.scrollBy({ left:pair[1]*strip.clientWidth*0.85, behavior:"smooth" }); };
+    arrows.appendChild(a);
+  });
   head.appendChild(arrows);
-  items.forEach(i => strip.appendChild(card(i)));
-  sec.append(head, strip);
+  items.forEach(function(i){ strip.appendChild(card(i)); });
+  sec.appendChild(head); sec.appendChild(strip);
   $("#rowsView").appendChild(sec);
 }
 
-function card(item) {
-  const b = el("button", "card");
-  const box = el("div", "art");
-  const src = art(item.poster_path);
-  if (src) { const i = el("img"); i.src = src; i.loading = "lazy"; i.alt = ""; box.appendChild(i); }
-  else box.appendChild(el("div", "placeholder", item.title || item.name));
-  b.appendChild(box);
-  b.appendChild(el("div", "ctitle", item.title || item.name));
-  const year = (item.release_date || item.first_air_date || "").slice(0,4);
-  const score = item.vote_average > 0 ? item.vote_average.toFixed(1) : "";
-  b.appendChild(el("div", "cmeta", [year, score].filter(Boolean).join(" · ")));
-  if (item._s && item._s.length) {
-    const dots = el("div", "dots");
-    item._s.forEach(id => {
-      const s = SERVICES.find(x => x.id === id); if (!s) return;
-      const d = el("span", "dot"); d.style.background = s.accent; d.title = s.name; dots.appendChild(d);
+/* ---- card -------------------------------------------------------- */
+function card(item, type){
+  var t = type || S.type;
+  var wrap=el("div","card");
+  var artwrap=el("div","artwrap");
+  var btn=el("button","art");
+  var src=art(item.poster_path || item.poster);
+  if (src) { var i=el("img"); i.src=src; i.loading="lazy"; i.alt=""; btn.appendChild(i); }
+  else btn.appendChild(el("div","placeholder", titleOf(item)||item.title));
+  btn.onclick=function(){ openDetail(item, t); };
+  var star=el("button","star"+(inWatch(item,t)?" on":""),"\u2605");
+  star.setAttribute("aria-label","Save to watchlist");
+  star.onclick=function(e){ e.stopPropagation(); star.classList.toggle("on", toggleWatch(item,t)); };
+  artwrap.appendChild(btn); artwrap.appendChild(star);
+  wrap.appendChild(artwrap);
+  wrap.appendChild(el("div","ctitle", titleOf(item)||item.title));
+  var y=yearOf(item);
+  var sc=item.vote_average>0 ? item.vote_average.toFixed(1) : "";
+  wrap.appendChild(el("div","cmeta",[y,sc].filter(Boolean).join(" \u00B7 ")));
+  var list=item._s || item.s;
+  if (list && list.length) {
+    var dots=el("div","dots");
+    list.forEach(function(id){
+      var s=SERVICES.filter(function(x){ return x.id===id; })[0]; if(!s) return;
+      var d=el("span","dot"); d.style.background=s.accent; d.title=s.name; dots.appendChild(d);
     });
-    b.appendChild(dots);
+    wrap.appendChild(dots);
   }
-  b.onclick = () => openDetail(item);
-  return b;
+  return wrap;
 }
 
 /* ---- grid -------------------------------------------------------- */
-async function loadGrid(reset) {
+function loadGrid(reset){
   if (S.busy || !S.providers) return;
-  S.busy = true;
-  $("#loadmore").textContent = "Loading…";
-  let sort = $("#sort").value;
-  if (sort === "newest") sort = S.type === "movie" ? "primary_release_date.desc" : "first_air_date.desc";
-  const extra = { sort_by:sort, with_genres:$("#genre").value || undefined };
-  if (sort.startsWith("vote_average")) extra["vote_count.gte"] = 400;
-  if (sort.endsWith("release_date.desc") || sort.startsWith("first_air_date")) {
-    extra[S.type === "movie" ? "primary_release_date.lte" : "first_air_date.lte"] = today();
-    extra["vote_count.gte"] = 10;
-  }
-  try {
-    const items = await discover(extra, S.gridPage);
-    if (reset) { S.gridItems = items; $("#gridItems").innerHTML = ""; }
-    else S.gridItems = S.gridItems.concat(items);
-    items.forEach(i => $("#gridItems").appendChild(card(i)));
-    if (!items.length && reset) $("#gridItems").appendChild(el("div", "note", "Nothing matched those filters."));
-  } catch (e) { setStatus(e.message, true); }
-  $("#loadmore").textContent = "Load more";
-  S.busy = false;
+  S.busy=true; $("#loadmore").textContent="Loading\u2026";
+  var choice=$("#sort").value;
+  var lte = S.type==="movie" ? "primary_release_date.lte" : "first_air_date.lte";
+  var gte = S.type==="movie" ? "primary_release_date.gte" : "first_air_date.gte";
+  var newSort = S.type==="movie" ? "primary_release_date.desc" : "first_air_date.desc";
+  var extra={ with_genres: $("#genre").value || undefined };
+  if (choice==="newest") { extra.sort_by=newSort; extra[lte]=today(); extra["vote_count.gte"]=10; }
+  else if (choice==="recent") { extra.sort_by=newSort; extra[gte]=daysAgo(90); extra[lte]=today(); }
+  else if (choice==="vote_average.desc") { extra.sort_by=choice; extra["vote_count.gte"]=400; }
+  else extra.sort_by=choice;
+  discover(extra, S.gridPage).then(function(items){
+    if (reset) $("#gridItems").innerHTML="";
+    items.forEach(function(i){ $("#gridItems").appendChild(card(i)); });
+    if (!items.length && reset) $("#gridItems").appendChild(el("div","note","Nothing matched those filters."));
+  }).catch(function(e){ setStatus(e.message, true); }).then(function(){
+    $("#loadmore").textContent="Load more"; S.busy=false;
+  });
 }
-$("#loadmore").onclick = () => { S.gridPage++; loadGrid(false); };
+$("#loadmore").onclick=function(){ S.gridPage++; loadGrid(false); };
 
 /* ---- search ------------------------------------------------------ */
-$("#search").addEventListener("keydown", e => { if (e.key === "Enter") runSearch(); });
-
-async function runSearch() {
-  const q = $("#search").value.trim();
-  if (!q) return;
+$("#search").addEventListener("keydown", function(e){ if(e.key==="Enter") runSearch(); });
+function runSearch(){
+  var q=$("#search").value.trim(); if(!q) return;
   setView("search");
-  $("#searchItems").innerHTML = "";
-  $("#searchStatus").textContent = "Searching…";
-  try {
-    const d = await tmdb("/search/" + S.type, { query:q, include_adult:false });
-    const top = d.results.slice(0, 20);
-    const checked = await Promise.all(top.map(async r => {
-      try {
-        const p = await tmdb("/" + S.type + "/" + r.id + "/watch/providers");
-        const au = (p.results && p.results.AU && p.results.AU.flatrate) || [];
-        return { ...r, _s: SERVICES.filter(s => au.some(x => x.provider_id === S.providers[s.id])).map(s => s.id) };
-      } catch (e) { return { ...r, _s: [] }; }
+  $("#searchItems").innerHTML=""; $("#searchStatus").textContent="Searching\u2026";
+  tmdb("/search/"+S.type, { query:q, include_adult:false }).then(function(d){
+    return Promise.all(d.results.slice(0,20).map(function(r){
+      return tmdb("/"+S.type+"/"+r.id+"/watch/providers").then(function(p){
+        var au = (p.results && p.results.AU && p.results.AU.flatrate) || [];
+        r._s = SERVICES.filter(function(s){
+          return au.some(function(x){ return x.provider_id===S.providers[s.id]; });
+        }).map(function(s){ return s.id; });
+        return r;
+      }).catch(function(){ r._s=[]; return r; });
     }));
-    const hits = checked.filter(r => r._s.length);
+  }).then(function(checked){
+    var hits=checked.filter(function(r){ return r._s.length; });
     $("#searchStatus").textContent = hits.length
-      ? hits.length + " streaming on these four in Australia"
-      : "No match on Netflix, HBO Max, Disney+ or Paramount+. Films and series are searched separately — try the other toggle.";
-    hits.forEach(h => $("#searchItems").appendChild(card(h)));
-  } catch (e) { $("#searchStatus").textContent = e.message; }
+      ? hits.length+" streaming in Australia on these five"
+      : "No match on Netflix, HBO Max, Disney+, Paramount+ or Apple TV+. Films and series are searched separately \u2014 try the other toggle.";
+    hits.forEach(function(h){ $("#searchItems").appendChild(card(h)); });
+  }).catch(function(e){ $("#searchStatus").textContent=e.message; });
 }
+
+/* ---- watchlist view ---------------------------------------------- */
+function renderWatch(){
+  var box=$("#watchItems"); box.innerHTML="";
+  var list=S.watch.filter(function(w){ return w.type===S.type; }).slice().reverse();
+  var empty=$("#watchEmpty");
+  empty.classList.toggle("hidden", list.length>0);
+  empty.textContent = (S.watch.length && !list.length)
+    ? "Nothing saved under "+(S.type==="movie"?"Films":"Series")+" \u2014 check the other toggle."
+    : "Nothing saved yet. Tap the \u2605 on any poster to add it here.";
+  list.forEach(function(w){
+    box.appendChild(card({ id:w.id, title:w.title, year:w.year, poster_path:w.poster, s:w.s }, w.type));
+  });
+}
+
+function asText(){
+  return S.watch.map(function(w){
+    var svcs=(w.s||[]).map(function(id){
+      var s=SERVICES.filter(function(x){ return x.id===id; })[0]; return s?s.name:null; }).filter(Boolean);
+    return w.title + (w.year?" ("+w.year+")":"") + (svcs.length?" \u2014 "+svcs.join(", "):"");
+  }).join("\n");
+}
+function asCsv(){
+  var rows=[["Title","Year","Type","Services","Saved"]];
+  S.watch.forEach(function(w){
+    var svcs=(w.s||[]).map(function(id){
+      var s=SERVICES.filter(function(x){ return x.id===id; })[0]; return s?s.name:null; }).filter(Boolean);
+    rows.push([w.title, w.year||"", w.type==="movie"?"Film":"Series", svcs.join(" / "), w.added||""]);
+  });
+  return rows.map(function(r){
+    return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(",");
+  }).join("\n");
+}
+function copyText(text, label){
+  if (!text) { toast("Watchlist is empty"); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function(){ toast(label+" copied"); })
+      .catch(function(){ fallbackCopy(text,label); });
+  } else fallbackCopy(text,label);
+}
+function fallbackCopy(text,label){
+  var ta=document.createElement("textarea");
+  ta.value=text; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); toast(label+" copied"); } catch(e){ toast("Copy failed"); }
+  document.body.removeChild(ta);
+}
+$("#copyList").onclick=function(){ copyText(asText(),"List"); };
+$("#copyCsv").onclick=function(){ copyText(asCsv(),"CSV"); };
+$("#clearList").onclick=function(){
+  if (!S.watch.length) return;
+  if (confirm("Clear the whole watchlist?")) { S.watch=[]; saveWatch(); renderWatch(); }
+};
 
 /* ---- detail ------------------------------------------------------ */
-async function openDetail(item) {
-  S.current = item;
-  const sheet = $("#sheet");
-  sheet.innerHTML = "";
+function openDetail(item, type){
+  var t = type || S.type;
+  var sheet=$("#sheet"); sheet.innerHTML="";
   if (item.backdrop_path) {
-    const bd = el("div", "backdrop");
-    const i = el("img"); i.src = art(item.backdrop_path, "w780"); i.alt = "";
-    bd.append(i, el("div", "fade"));
-    sheet.appendChild(bd);
+    var bd=el("div","backdrop");
+    var i=el("img"); i.src=art(item.backdrop_path,"w780"); i.alt="";
+    bd.appendChild(i); bd.appendChild(el("div","fade")); sheet.appendChild(bd);
   }
-  const body = el("div", "body");
-  body.appendChild(el("h2", null, item.title || item.name));
-  const meta = el("div", "meta", (item.release_date || item.first_air_date || "").slice(0,4));
-  body.appendChild(meta);
-  const where = el("div", "where"); body.appendChild(where);
-  body.appendChild(el("p", null, item.overview || "No synopsis on file."));
-  const extra = el("div"); body.appendChild(extra);
-  const close = el("button", "close", "Close");
-  close.onclick = closeDetail;
-  body.appendChild(close);
+  var body=el("div","body");
+  body.appendChild(el("h2",null,titleOf(item)||item.title));
+  var meta=el("div","meta", yearOf(item));
+  var where=el("div","where");
+  var para=el("p",null,item.overview||"");
+  var extra=el("div");
+  body.appendChild(meta); body.appendChild(where); body.appendChild(para); body.appendChild(extra);
+  var mark=el("button","act mark", inWatch(item,t)?"Remove from watchlist":"Save to watchlist");
+  mark.onclick=function(){
+    var added=toggleWatch(item,t);
+    mark.textContent = added ? "Remove from watchlist" : "Save to watchlist";
+  };
+  var close=el("button","act","Close"); close.onclick=closeDetail;
+  body.appendChild(mark); body.appendChild(close);
   sheet.appendChild(body);
-  $("#modal").classList.remove("hidden");
-  sheet.scrollTop = 0;
+  $("#modal").classList.remove("hidden"); sheet.scrollTop=0;
 
-  try {
-    const d = await tmdb("/" + S.type + "/" + item.id, { append_to_response:"credits,watch/providers" });
-    const bits = [(item.release_date || item.first_air_date || "").slice(0,4)];
-    if (d.runtime) bits.push(d.runtime + " min");
-    if (d.number_of_seasons) bits.push(d.number_of_seasons + " season" + (d.number_of_seasons > 1 ? "s" : ""));
-    if (item.vote_average > 0) bits.push(item.vote_average.toFixed(1) + " on TMDB");
-    meta.textContent = bits.filter(Boolean).join(" · ");
-    const au = (d["watch/providers"] && d["watch/providers"].results && d["watch/providers"].results.AU && d["watch/providers"].results.AU.flatrate) || [];
-    au.forEach(p => where.appendChild(el("span", "chip", p.provider_name)));
-    if (d.genres && d.genres.length) extra.appendChild(el("div", "sub", d.genres.map(g => g.name).join(" · ")));
-    const cast = (d.credits && d.credits.cast || []).slice(0,5).map(c => c.name).join(", ");
-    if (cast) extra.appendChild(el("div", "sub", "With " + cast));
-  } catch (e) {}
+  tmdb("/"+t+"/"+item.id, { append_to_response:"credits,watch/providers" }).then(function(d){
+    var bits=[yearOf(item) || (d.release_date||d.first_air_date||"").slice(0,4)];
+    if (d.runtime) bits.push(d.runtime+" min");
+    if (d.number_of_seasons) bits.push(d.number_of_seasons+" season"+(d.number_of_seasons>1?"s":""));
+    if (d.vote_average>0) bits.push(d.vote_average.toFixed(1)+" on TMDB");
+    meta.textContent = bits.filter(Boolean).join(" \u00B7 ");
+    if (!para.textContent) para.textContent = d.overview || "No synopsis on file.";
+    var res = d["watch/providers"] && d["watch/providers"].results;
+    var au = (res && res.AU && res.AU.flatrate) || [];
+    au.forEach(function(p){ where.appendChild(el("span","chip", p.provider_name)); });
+    if (d.genres && d.genres.length)
+      extra.appendChild(el("div","sub", d.genres.map(function(g){ return g.name; }).join(" \u00B7 ")));
+    var cast = ((d.credits && d.credits.cast) || []).slice(0,5).map(function(c){ return c.name; }).join(", ");
+    if (cast) extra.appendChild(el("div","sub","With "+cast));
+  }).catch(function(){});
 }
-function closeDetail() { $("#modal").classList.add("hidden"); }
-$("#modal").onclick = (e) => { if (e.target.id === "modal") closeDetail(); };
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeDetail(); });
+function closeDetail(){ $("#modal").classList.add("hidden"); }
+$("#modal").onclick=function(e){ if(e.target.id==="modal") closeDetail(); };
+document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeDetail(); });
 </script>
 </body>
 </html>
